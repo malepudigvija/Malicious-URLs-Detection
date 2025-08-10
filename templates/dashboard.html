@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Navigation -->
+        <nav class="dashboard-nav">
+            <a href="dashboard.html" class="logo">
+                <i data-lucide="shield"></i>
+                URLGuard
+            </a>
+            <div class="nav-links">
+                
+                <a href="settings.html" class="nav-item">
+                    <i data-lucide="settings"></i> Settings
+                </a>
+                <a href="profile.html" class="nav-item">
+                    <i data-lucide="user"></i> Profile
+                </a>
+                <a href="help.html" class="nav-item">
+                    <i data-lucide="help-circle"></i> Help
+                </a>
+                <a href="#" class="nav-item" onclick="return confirmLogout()">
+                    <i data-lucide="log-out"></i> Logout
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="dashboard-content">
+            <h1>Welcome to the Dashboard</h1>
+            <p>Detect and analyze suspicious URLs instantly to ensure safe browsing.</p>
+            <a href="index.html" class="url-detection-button">🔍 URL Detection</a>
+        </main>
+    </div>
+    <script>
+        function applyTheme(theme) {
+            if (theme === "system") {
+                const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.documentElement.setAttribute('data-theme', systemPrefersDark ? 'dark' : 'light');
+            } else {
+                document.documentElement.setAttribute('data-theme', theme);
+            }
+        }
+    
+        function setTheme(theme) {
+            localStorage.setItem("theme", theme);
+            applyTheme(theme);
+        }
+    
+        window.onload = function () {
+            // Load saved theme from localStorage or fallback to light
+            const savedTheme = localStorage.getItem("theme") || "light";
+            applyTheme(savedTheme);
+    
+            // Set the selected radio button based on saved theme
+            const radios = document.querySelectorAll('input[name="theme"]');
+            radios.forEach(radio => {
+                if (radio.value === savedTheme) {
+                    radio.checked = true;
+                }
+    
+                radio.addEventListener("change", () => {
+                    setTheme(radio.value);
+                });
+            });
+        };
+    </script>
+        
+
+    <script src="script.js"></script>
+    <script>
+        function confirmLogout() {
+            if (confirm("Are you sure you want to logout?")) {
+                // If user clicks OK, go to logout
+                window.location.href = "dashboard2.html";
+            } return false;
+        }
+    </script>
+</body>
+</html>

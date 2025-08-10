@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <nav class="dashboard-nav">
+            <a href="dashboard.html" class="logo">
+                <i data-lucide="shield"></i>
+                URLGuard
+            </a>
+            <div class="nav-links">
+                
+                <a href="settings.html" class="nav-item">
+                    <i data-lucide="settings"></i> Settings
+                </a>
+                <a href="profile.html" class="nav-item">
+                    <i data-lucide="user"></i> Profile
+                </a>
+                <a href="help.html" class="nav-item">
+                    <i data-lucide="help-circle"></i> Help
+                </a>
+                <a href="#" class="nav-item" onclick="return confirmLogout()">
+                    <i data-lucide="log-out"></i> Logout
+                </a>
+                <a href="index.html" class="nav-item">
+                    
+                </a>
+                
+            </div>
+        </nav>
+
+        <main class="container">
+            <h1 class="title">Settings</h1>
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">General Settings</h2>
+                    <p class="card-description">Manage your account preferences</p>
+                </div>
+                <div class="card-content">
+                    <h3 class="subtitle">Theme</h3>
+                    <div class="radio-group">
+                        <label><input type="radio" name="theme" value="light" checked> Light</label>
+                        <label><input type="radio" name="theme" value="dark"> Dark</label>
+                        <label><input type="radio" name="theme" value="system"> System</label>
+                    </div>
+                    <div class="switch-group">
+                        <label class="switch-label">
+                            <input type="checkbox" id="notifications" checked>
+                            Enable notifications
+                        </label>
+                    </div>
+                    <button id="saveSettings" class="btn">Save Settings</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Account</h2>
+                    <p class="card-description">Manage your account settings</p>
+                </div>
+                <div class="card-content">
+                    <button id="editProfile" class="btn">Edit Profile</button>
+                    <button id="logout" class="btn danger">Sign out</button>
+                </div>
+            </div>
+        </main>
+    </div>
+    <!-- 🧠 Keep your existing HTML; only JavaScript is changed/added below -->
+<script>
+    function confirmLogout() {
+        if (confirm("Are you sure you want to logout?")) {
+            window.location.href = "dashboard2.html";
+        }
+        return false;
+    }
+
+    // 🌗 Handle theme changes
+    function applyTheme(theme) {
+        if (theme === "system") {
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.setAttribute('data-theme', systemPrefersDark ? 'dark' : 'light');
+        } else {
+            document.documentElement.setAttribute('data-theme', theme);
+        }
+    }
+
+    function setTheme(theme) {
+        localStorage.setItem("theme", theme);
+        applyTheme(theme);
+    }
+
+    window.onload = function () {
+        // Load saved theme from localStorage or fallback to light
+        const savedTheme = localStorage.getItem("theme") || "light";
+        applyTheme(savedTheme);
+
+        // Set the selected radio button based on saved theme
+        const radios = document.querySelectorAll('input[name="theme"]');
+        radios.forEach(radio => {
+            if (radio.value === savedTheme) {
+                radio.checked = true;
+            }
+
+            radio.addEventListener("change", () => {
+                setTheme(radio.value);
+            });
+        });
+    };
+</script>
+
+    
+    <script>
+        function confirmLogout() {
+            if (confirm("Are you sure you want to logout?")) {
+                // If user clicks OK, go to logout
+                window.location.href = "dashboard2.html";
+            } return false;
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="script.js"></script>
+</body>
+</html>

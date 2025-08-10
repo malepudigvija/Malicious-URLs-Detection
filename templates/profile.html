@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <nav class="dashboard-nav">
+            <a href="dashboard.html" class="logo">
+                <i data-lucide="shield"></i>
+                URLGuard
+            </a>
+            <div class="nav-links">
+                
+                <a href="settings.html" class="nav-item">
+                    <i data-lucide="settings"></i> Settings
+                </a>
+                <a href="profile.html" class="nav-item">
+                    <i data-lucide="user"></i> Profile
+                </a>
+                <a href="help.html" class="nav-item">
+                    <i data-lucide="help-circle"></i> Help
+                </a>
+                <a href="#" class="nav-item" onclick="return confirmLogout()">
+                    <i data-lucide="log-out"></i> Logout
+                </a>
+            </div>
+        </nav>
+
+        <main class="container">
+            
+            <h1 class="title">Edit Profile</h1>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Profile Information</h2>
+                    <p class="card-description">Update your account details here</p>
+                </div>
+                <div class="card-content">
+                    <div class="input-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" placeholder="Enter Your Name">
+                    </div>
+                    <div class="input-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="Enter Your Email">
+                    </div>
+                    <button id="saveProfile" class="btn">Save Profile</button>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+    function applyTheme(theme) {
+        if (theme === "system") {
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.setAttribute('data-theme', systemPrefersDark ? 'dark' : 'light');
+        } else {
+            document.documentElement.setAttribute('data-theme', theme);
+        }
+    }
+    
+
+    function setTheme(theme) {
+        localStorage.setItem("theme", theme);
+        applyTheme(theme);
+    }
+
+    window.onload = function () {
+        // Load saved theme from localStorage or fallback to light
+        const savedTheme = localStorage.getItem("theme") || "light";
+        applyTheme(savedTheme);
+
+        // Set the selected radio button based on saved theme
+        const radios = document.querySelectorAll('input[name="theme"]');
+        radios.forEach(radio => {
+            if (radio.value === savedTheme) {
+                radio.checked = true;
+            }
+
+            radio.addEventListener("change", () => {
+                setTheme(radio.value);
+            });
+        });
+    };
+</script>
+    <style>
+  .profile-button {
+    display: flex;
+    align-items: center;
+    background-color: #444;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 20px;
+  }
+
+  .profile-icon {
+    margin-right: 8px;
+  }
+
+  .username {
+    font-size: 16px;
+  }
+</style>
+    <script>
+        function confirmLogout() {
+            if (confirm("Are you sure you want to logout?")) {
+                // If user clicks OK, go to logout
+                window.location.href = "dashboard2.html";
+            } return false;
+        }
+    </script>
+    <script>
+        document.getElementById('saveProfile').addEventListener('click', function () {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+        
+            // Replace with actual user_id you are using (ideally from session or backend)
+            const user_id = 1;
+        
+            fetch('http://localhost:5000/update_profile', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    user_id: user_id,
+                    name: name,
+                    email: email,
+                    password: "default123" // You can allow users to change it in the form
+                })
+            })
+            .then(response => response.json())
+            .then(data => alert(data.message || data.error))
+            .catch(error => console.error('Error:', error));
+        });
+        </script>
+        
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="script.js"></script>
+</body>
+</html>
